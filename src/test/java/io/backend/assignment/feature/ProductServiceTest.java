@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 class ProductServiceTest {
 
@@ -34,7 +36,8 @@ class ProductServiceTest {
         final LocalDateTime create_at = LocalDateTime.now();
         final LocalDateTime update_at = LocalDateTime.now();
 
-        ProductRequest productRequest = new ProductRequest(name, description, price, stock, create_at, update_at);
+        RegisterProduct.ProductRequest request = new RegisterProduct.ProductRequest(name, description, price, stock, create_at, update_at);
+        registerProduct.register(request);
 
     }
 
@@ -46,35 +49,36 @@ class ProductServiceTest {
             this.productRepository = productRepository;
         }
 
-        public void request(ProductRequest request) {
+        public void register(ProductRequest request) {
             final Product product = request.toDomain(request);
-        }
-    }
-
-    private record ProductRequest(
-            String name,
-            String description,
-            Long price,
-            Integer stock,
-            LocalDateTime create_at,
-            LocalDateTime update_at) {
-
-        ProductRequest {
-            Assert.hasText(name, "이름은 필수입니다.");
-            Assert.notNull(price, "상품 가격은 필수입니다.");
-            Assert.notNull(stock, "수량은 필수입니다.");
-            Assert.notNull(create_at, "생성 시간은 필수입니다.");
-            Assert.notNull(update_at, "수정 시간은 필수입니다.");
+            productRepository.save(product);
         }
 
-        public Product toDomain(ProductRequest request) {
-            return new Product(
-                    request.name(),
-                    request.description(),
-                    request.price(),
-                    request.stock(),
-                    request.create_at(),
-                    request.update_at());
+        private record ProductRequest(
+                String name,
+                String description,
+                Long price,
+                Integer stock,
+                LocalDateTime create_at,
+                LocalDateTime update_at) {
+
+            ProductRequest {
+                Assert.hasText(name, "이름은 필수입니다.");
+                Assert.notNull(price, "상품 가격은 필수입니다.");
+                Assert.notNull(stock, "수량은 필수입니다.");
+                Assert.notNull(create_at, "생성 시간은 필수입니다.");
+                Assert.notNull(update_at, "수정 시간은 필수입니다.");
+            }
+
+            public Product toDomain(ProductRequest request) {
+                return new Product(
+                        request.name(),
+                        request.description(),
+                        request.price(),
+                        request.stock(),
+                        request.create_at(),
+                        request.update_at());
+            }
         }
     }
 
@@ -116,9 +120,26 @@ class ProductServiceTest {
             Assert.notNull(create_at, "생성 시간은 필수입니다.");
             Assert.notNull(update_at, "수정 시간은 필수입니다.");
         }
+
+        public void assignId(final Long id) {
+            this.id = id;
+        }
+
+        public Long getId() {
+            return id;
+        }
     }
 
     private class ProductRepository {
+        private final Map<Long, Product> products = new HashMap<>();
+        private Long productId = 1L;
+
+
+        public void save(final Product product) {
+
+            product.assignId(productId++);
+            products.put(product.getId(), product);
+        }
     }
 }
 
