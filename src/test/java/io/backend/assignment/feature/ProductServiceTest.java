@@ -11,10 +11,11 @@ class ProductServiceTest {
 
 
     private RegisterProduct registerProduct;
+    private ProductRepository productRepository;
 
     @BeforeEach
     void setUp() {
-        registerProduct = new RegisterProduct();
+        registerProduct = new RegisterProduct(productRepository);
     }
 
     /**
@@ -38,8 +39,15 @@ class ProductServiceTest {
     }
 
     private class RegisterProduct {
+
+        private final ProductRepository productRepository;
+
+        private RegisterProduct(final ProductRepository productRepository) {
+            this.productRepository = productRepository;
+        }
+
         public void request(ProductRequest request) {
-            request.toDomain(request);
+            final Product product = request.toDomain(request);
         }
     }
 
@@ -108,6 +116,9 @@ class ProductServiceTest {
             Assert.notNull(create_at, "생성 시간은 필수입니다.");
             Assert.notNull(update_at, "수정 시간은 필수입니다.");
         }
+    }
+
+    private class ProductRepository {
     }
 }
 
