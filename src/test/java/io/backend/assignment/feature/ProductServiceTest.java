@@ -1,28 +1,26 @@
 package io.backend.assignment.feature;
 
+import io.backend.assignment.common.ApiTest;
 import io.backend.assignment.domain.ProductRepository;
-import org.junit.jupiter.api.BeforeEach;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ProductServiceTest {
+class ProductServiceTest extends ApiTest {
 
-    private RegisterProduct registerProduct;
+    @Autowired
     private ProductRepository productRepository;
 
-    @BeforeEach
-    void setUp() {
-        productRepository = new ProductRepository();
-        registerProduct = new RegisterProduct(productRepository);
-    }
-
     /**
-     * 1. 상품을 등록한다. []
-     * 2. 상품 목록을 조회한다. []
+     * 1. 상품을 등록한다. [O]
+     * 2. 상품 목록을 조회한다. [O]
      * 3. 상품 목록이 비어있을 경우, 예외를 발생시킨다. []
      */
     @Test
@@ -37,7 +35,15 @@ class ProductServiceTest {
         final LocalDateTime update_at = LocalDateTime.now();
 
         RegisterProduct.ProductRequest request = new RegisterProduct.ProductRequest(name, description, price, stock, create_at, update_at);
-        registerProduct.register(request);
+
+        RestAssured.given().log().all()
+                .when()
+                .body(request)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/v1/products")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
 
         assertThat(productRepository.findAll().size()).isEqualTo(1);
 

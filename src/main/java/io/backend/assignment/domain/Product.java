@@ -1,11 +1,13 @@
 package io.backend.assignment.domain;
 
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
-class Product {
+public class Product {
 
+    @Getter
     private Long id;
     private final String name;
     private final String description;
@@ -47,7 +49,4 @@ class Product {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
-    }
 }
