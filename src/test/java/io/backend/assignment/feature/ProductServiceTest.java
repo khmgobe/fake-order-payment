@@ -38,7 +38,9 @@ class ProductServiceTest {
     }
 
     private class RegisterProduct {
+        public void request(ProductRequest request) {
 
+        }
     }
 
     private record ProductRequest(
