@@ -39,7 +39,7 @@ class ProductServiceTest {
 
     private class RegisterProduct {
         public void request(ProductRequest request) {
-
+            request.toDomain();
         }
     }
 
@@ -58,6 +58,13 @@ class ProductServiceTest {
             Assert.notNull(create_at, "생성 시간은 필수입니다.");
             Assert.notNull(update_at, "수정 시간은 필수입니다.");
         }
+
+        public Product toDomain() {
+            return null;
+        }
+    }
+
+    private class Product {
     }
 }
 
