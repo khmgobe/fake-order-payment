@@ -1,20 +1,49 @@
 package io.backend.assignment.domain;
 
-import lombok.Getter;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "product")
+@Comment("상품 테이블")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
-    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "BIGINT")
+    @Comment("상품 ID (고유 키)")
     private Long id;
-    private final String name;
-    private final String description;
-    private final Long price;
-    private final Integer stock;
-    private final LocalDateTime create_at;
-    private final LocalDateTime update_at;
+
+    @Column(name = "name", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
+    @Comment("상품 이름")
+    private String name;
+
+    @Column(name = "description", length = 1000, columnDefinition = "VARCHAR(1000)")
+    @Comment("상품 설명")
+    private String description;
+
+    @Column(name = "price", nullable = false, columnDefinition = "BIGINT")
+    @Comment("상품 가격")
+    private Long price;
+
+    @Column(name = "stock", nullable = false, columnDefinition = "INT")
+    @Comment("재고 수량")
+    private Integer stock;
+
+
+    @Column(name = "create_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Comment("생성 시간")
+    private LocalDateTime create_at;
+
+    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Comment("수정 시간")
+    private LocalDateTime update_at;
 
     public Product(
             final String name,
@@ -43,10 +72,6 @@ public class Product {
         Assert.notNull(stock, "재고 수량은 필수입니다.");
         Assert.notNull(create_at, "생성 시간은 필수입니다.");
         Assert.notNull(update_at, "수정 시간은 필수입니다.");
-    }
-
-    public void assignId(final Long id) {
-        this.id = id;
     }
 
 }
