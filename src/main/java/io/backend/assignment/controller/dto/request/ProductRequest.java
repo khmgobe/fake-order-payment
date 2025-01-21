@@ -29,12 +29,12 @@ public record ProductRequest(
     }
 
     public Product toDomain(ProductRequest request) {
-        return new Product(
-                request.name(),
-                request.description(),
-                request.price(),
-                request.stock(),
-                request.create_at(),
-                request.update_at());
+        return  Product.builder()
+                .name(request.name())
+                .description(request.description())
+                .price(request.price())
+                .stock(request.stock())
+                .create_at(request.create_at())
+                .update_at(request.update_at()).build();
     }
 }

@@ -2,6 +2,7 @@ package io.backend.assignment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
@@ -45,7 +46,8 @@ public class Product {
     @Comment("수정 시간")
     private LocalDateTime update_at;
 
-    public Product(
+    @Builder
+    private Product(
             final String name,
             final String description,
             final Long price,
