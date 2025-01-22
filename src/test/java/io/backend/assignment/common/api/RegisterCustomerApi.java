@@ -15,6 +15,11 @@ public class RegisterCustomerApi {
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime update_at = LocalDateTime.now();
 
+    public RegisterCustomerApi name(String name) {
+        this.name = name;
+        return this;
+    }
+
     public ValidatableResponse request() {
 
         CustomerRequest request = new CustomerRequest(name, create_at, update_at);

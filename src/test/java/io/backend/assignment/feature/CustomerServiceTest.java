@@ -16,7 +16,7 @@ class CustomerServiceTest extends ApiTest {
     private CustomerRepository customerRepository;
 
     @Test
-    @DisplayName("사용자를 등록하고 조회한다.")
+    @DisplayName("사용자를 등록하고 조회한다. [정상 케이스]")
     void registerCustomer() {
 
         TestScenario.registerCustomerApi().request();
