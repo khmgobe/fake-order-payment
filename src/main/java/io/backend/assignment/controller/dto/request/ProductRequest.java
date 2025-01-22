@@ -16,16 +16,16 @@ public record ProductRequest(
         @NotNull(message = "수량은 필수입니다.")
         Integer stock,
         @NotNull(message = "생성 시간은 필수입니다.")
-        LocalDateTime create_at,
+        LocalDateTime createdAt,
         @NotNull(message = "수정 시간은 필수입니다.")
-        LocalDateTime update_at) {
+        LocalDateTime updatedAt) {
 
     public ProductRequest {
         Assert.hasText(name, "상품 이름은 필수입니다.");
         Assert.notNull(price, "상품 가격은 필수입니다.");
         Assert.notNull(stock, "수량은 필수입니다.");
-        Assert.notNull(create_at, "생성 시간은 필수입니다.");
-        Assert.notNull(update_at, "수정 시간은 필수입니다.");
+        Assert.notNull(createdAt, "생성 시간은 필수입니다.");
+        Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
     }
 
     public Product toDomain(ProductRequest request) {
@@ -34,7 +34,8 @@ public record ProductRequest(
                 .description(request.description())
                 .price(request.price())
                 .stock(request.stock())
-                .create_at(request.create_at())
-                .update_at(request.update_at()).build();
+                .createdAt(request.createdAt())
+                .createdAt(request.updatedAt())
+                .build();
     }
 }

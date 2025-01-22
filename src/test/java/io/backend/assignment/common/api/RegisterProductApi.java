@@ -14,8 +14,8 @@ public class RegisterProductApi {
     private String description = "description";
     private long price = 10000L;
     private int stock = 2;
-    private LocalDateTime create_at = LocalDateTime.now();
-    private LocalDateTime update_at = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public RegisterProductApi stock (final int stock) {
         this.stock = stock;
@@ -24,7 +24,7 @@ public class RegisterProductApi {
 
     public ValidatableResponse request() {
 
-        ProductRequest request = new ProductRequest(name, description, price, stock, create_at, update_at);
+        ProductRequest request = new ProductRequest(name, description, price, stock, createdAt, updatedAt);
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
