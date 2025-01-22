@@ -3,6 +3,7 @@ package io.backend.assignment.domain;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
@@ -37,14 +38,13 @@ public class Product {
     @Comment("재고 수량")
     private Integer stock;
 
-
     @Column(name = "create_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성 시간")
-    private LocalDateTime create_at;
-
+    LocalDateTime create_at;
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
-    private LocalDateTime update_at;
+    @Getter
+    LocalDateTime update_at;
 
     @Builder
     private Product(
@@ -60,6 +60,7 @@ public class Product {
         this.stock = stock;
         this.create_at = create_at;
         this.update_at = update_at;
+
         validateConstructor(name, price, stock, create_at, update_at);
     }
 
@@ -75,5 +76,4 @@ public class Product {
         Assert.notNull(create_at, "생성 시간은 필수입니다.");
         Assert.notNull(update_at, "수정 시간은 필수입니다.");
     }
-
 }

@@ -22,8 +22,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findAllProductList() {
-        final List<Product> products = productRepository.findAll();
+    public List<Product> findAllProducts() {
+        final List<Product> products = productRepository.findAllAvailableProducts();
 
         return products;
     }
