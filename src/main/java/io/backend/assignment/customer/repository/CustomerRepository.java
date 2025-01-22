@@ -1,6 +1,6 @@
-package io.backend.assignment.repository;
+package io.backend.assignment.customer.repository;
 
-import io.backend.assignment.domain.Customer;
+import io.backend.assignment.customer.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

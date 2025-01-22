@@ -1,5 +1,7 @@
-package io.backend.assignment.domain;
+package io.backend.assignment.cart.domain;
 
+import io.backend.assignment.customer.domain.Customer;
+import io.backend.assignment.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

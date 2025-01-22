@@ -1,8 +1,8 @@
-package io.backend.assignment.controller.dto.request;
+package io.backend.assignment.cart.controller.dto.request;
 
-import io.backend.assignment.domain.Cart;
-import io.backend.assignment.domain.Customer;
-import io.backend.assignment.domain.Product;
+import io.backend.assignment.cart.domain.Cart;
+import io.backend.assignment.customer.domain.Customer;
+import io.backend.assignment.product.domain.Product;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;

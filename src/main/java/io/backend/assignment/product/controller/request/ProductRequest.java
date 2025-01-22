@@ -1,6 +1,6 @@
-package io.backend.assignment.controller.dto.request;
+package io.backend.assignment.product.controller.request;
 
-import io.backend.assignment.domain.Product;
+import io.backend.assignment.product.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

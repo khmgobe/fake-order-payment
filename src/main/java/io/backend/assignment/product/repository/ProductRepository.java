@@ -1,6 +1,6 @@
-package io.backend.assignment.repository;
+package io.backend.assignment.product.repository;
 
-import io.backend.assignment.domain.Product;
+import io.backend.assignment.product.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

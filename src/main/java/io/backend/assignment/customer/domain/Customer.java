@@ -1,4 +1,4 @@
-package io.backend.assignment.domain;
+package io.backend.assignment.customer.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
