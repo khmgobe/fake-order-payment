@@ -11,14 +11,13 @@ import java.time.LocalDateTime;
 public class RegisterCustomerApi {
 
 
-    private Long id = 1L;
-    private String name = "name";
+    private String name = "customerName";
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime update_at = LocalDateTime.now();
 
     public ValidatableResponse request() {
 
-        CustomerRequest request = new CustomerRequest(id, name, create_at, update_at);
+        CustomerRequest request = new CustomerRequest(name, create_at, update_at);
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
