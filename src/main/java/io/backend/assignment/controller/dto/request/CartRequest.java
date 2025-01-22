@@ -3,13 +3,17 @@ package io.backend.assignment.controller.dto.request;
 import io.backend.assignment.domain.Cart;
 import io.backend.assignment.domain.Customer;
 import io.backend.assignment.domain.Product;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public record CartRequest(
 
+        @NotNull(message = "수량은 필수입니다.")
         int quantity,
+        @NotNull(message = "생성 시간은 필수입니다.")
         LocalDateTime createdAt,
+        @NotNull(message = "수정 시간은 필수입니다.")
         LocalDateTime updatedAt) {
 
     public Cart toDomain(final Product product, final Customer customer) {
