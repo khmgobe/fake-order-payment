@@ -1,62 +1,28 @@
 package io.backend.assignment.feature;
 
-import io.backend.assignment.domain.Customer;
-import io.backend.assignment.domain.Product;
-import io.backend.assignment.fixture.CustomerFixture;
-import io.backend.assignment.fixture.ProductFixture;
-import org.junit.jupiter.api.BeforeEach;
+import io.backend.assignment.common.ApiTest;
+import io.backend.assignment.common.TestScenario;
+import io.backend.assignment.repository.CartRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-
-class CartServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
 
-    private Customer customer;
-    private Product product;
-    private RegisterCart registerCart;
+import static org.assertj.core.api.Assertions.assertThat;
 
-    @BeforeEach
-    void setUp() {
-        customer = CustomerFixture.createCustomer().build();
-        product = ProductFixture.createProduct().build();
-        registerCart = new RegisterCart();
-    }
+class CartServiceTest extends ApiTest {
 
-    /**
-     * 상품을 장바구니에 추가하기 위해서는,
-     */
+    @Autowired
+    private CartRepository cartRepository;
+
     @Test
     @DisplayName("상품을 장바구니에 추가한다. [정상 케이스]")
     void addProductToCart() {
 
-        final Long cartId = 1L;
-        final Long customerId = customer.getId();
-        final Long productId = product.getId();
-        final int quantity = 3;
-        final LocalDateTime createdAt = LocalDateTime.now();
-        final LocalDateTime updatedAt = LocalDateTime.now();
+        TestScenario.registerCartApi().register();
 
-        CartRequest request = new CartRequest(cartId, customerId, productId, quantity, createdAt, updatedAt);
-
-        registerCart.register(request);
+        assertThat(cartRepository.findAll().size()).isEqualTo(1);
 
     }
 
-    private class RegisterCart {
-
-        public void register(final CartRequest request) {
-
-        }
-    }
-
-    private record CartRequest(
-            Long cartId,
-            Long customerId,
-            Long productId,
-            int quantity,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
-    }
 }
