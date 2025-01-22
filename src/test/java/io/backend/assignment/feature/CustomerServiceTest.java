@@ -35,8 +35,8 @@ class CustomerServiceTest {
 
     private class RegisterCustomer {
 
-        public void register(final CustomerRequest customerRequest) {
-
+        public void register(final CustomerRequest request) {
+            request.toDomain(request);
         }
 
         public record CustomerRequest(Long id, String name, LocalDateTime create_at, LocalDateTime update_at) {
@@ -46,6 +46,13 @@ class CustomerServiceTest {
                 Assert.notNull(create_at, " 생성 시간은 필수입니다.");
                 Assert.notNull(update_at, " 수정 시간은 필수입니다.");
             }
+
+            public Customer toDomain(final CustomerRequest request) {
+                return null;
+            }
         }
+    }
+
+    private static class Customer {
     }
 }
