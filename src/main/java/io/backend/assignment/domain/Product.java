@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "BIGINT")
     @Comment("상품 ID (고유 키)")
