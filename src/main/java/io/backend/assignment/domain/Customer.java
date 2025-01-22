@@ -20,7 +20,7 @@ public class Customer {
     @Column(name = "id", columnDefinition = "BIGINT")
     @Comment("고객 ID (고유 키)")
     private Long id;
-    @Column(name = "name", unique = true, columnDefinition = "VARCHAR(50)")
+    @Column(name = "name", unique = true, nullable = false, columnDefinition = "VARCHAR(50)")
     @Comment("고객 이름")
     private String name;
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
