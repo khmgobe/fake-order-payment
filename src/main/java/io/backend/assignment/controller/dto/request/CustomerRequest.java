@@ -1,0 +1,19 @@
+package io.backend.assignment.controller.dto.request;
+
+import io.backend.assignment.domain.Customer;
+import org.springframework.util.Assert;
+
+import java.time.LocalDateTime;
+
+public record CustomerRequest(Long id, String name, LocalDateTime create_at, LocalDateTime update_at) {
+    public CustomerRequest {
+        Assert.notNull(id, "아이디는 필수입니다.");
+        Assert.hasText(name, "고객 이름은 필수입니다.");
+        Assert.notNull(create_at, " 생성 시간은 필수입니다.");
+        Assert.notNull(update_at, " 수정 시간은 필수입니다.");
+    }
+
+    public Customer toDomain(final CustomerRequest request) {
+        return new Customer(id(), name(), create_at(), update_at());
+    }
+}
