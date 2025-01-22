@@ -1,26 +1,42 @@
 package io.backend.assignment.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "customer")
+@Comment("사용자 테이블")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer {
 
-    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "BIGINT")
+    @Comment("고객 ID (고유 키)")
     private Long id;
-    private final String name;
-    private final LocalDateTime createAt;
-    private final LocalDateTime updateAt;
+    @Column(name = "name", unique = true, columnDefinition = "VARCHAR(50)")
+    @Comment("고객 이름")
+    private String name;
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Comment("생성 시간")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Comment("수정 시간")
+    private LocalDateTime updatedAt;
 
     @Builder
-    private Customer(final String name, final LocalDateTime create_at, final LocalDateTime update_at) {
+    private Customer(final String name, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.name = name;
-        this.createAt = create_at;
-        this.updateAt = update_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
-        validateConstructor(name, create_at, update_at);
+        validateConstructor(name, createdAt, updatedAt);
     }
 
     private void validateConstructor(final String name, final LocalDateTime create_at, final LocalDateTime update_at) {

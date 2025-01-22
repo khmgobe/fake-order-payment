@@ -3,6 +3,7 @@ package io.backend.assignment.service;
 import io.backend.assignment.controller.dto.request.CustomerRequest;
 import io.backend.assignment.domain.Customer;
 import io.backend.assignment.repository.CustomerRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CustomerService {
 
     @Transactional
     @PostMapping("/api/v1/customers")
-    public ResponseEntity<Void> register(final @RequestBody CustomerRequest request) {
+    public ResponseEntity<Void> register(final @RequestBody @Valid CustomerRequest request) {
         final Customer customer = request.toDomain(request);
         customerRepository.save(customer);
         return ResponseEntity.status(HttpStatus.CREATED).build();
