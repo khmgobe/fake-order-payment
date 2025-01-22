@@ -13,6 +13,10 @@ public record CustomerRequest(String name, LocalDateTime create_at, LocalDateTim
     }
 
     public Customer toDomain(final CustomerRequest request) {
-        return new Customer(name(), create_at(), update_at());
+        return Customer.builder()
+                .name(request.name())
+                .create_at(request.create_at())
+                .update_at(request.update_at())
+                .build();
     }
 }

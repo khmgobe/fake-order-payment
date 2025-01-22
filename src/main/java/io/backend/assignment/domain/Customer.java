@@ -1,5 +1,6 @@
 package io.backend.assignment.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
@@ -13,7 +14,8 @@ public class Customer {
     private final LocalDateTime createAt;
     private final LocalDateTime updateAt;
 
-    public Customer(final String name, final LocalDateTime create_at, final LocalDateTime update_at) {
+    @Builder
+    private Customer(final String name, final LocalDateTime create_at, final LocalDateTime update_at) {
         this.name = name;
         this.createAt = create_at;
         this.updateAt = update_at;
@@ -25,9 +27,5 @@ public class Customer {
         Assert.hasText(name, "고객 이름은 필수입니다.");
         Assert.notNull(create_at, " 생성 시간은 필수입니다.");
         Assert.notNull(update_at, " 수정 시간은 필수입니다.");
-    }
-
-    public void assignId(final Long id) {
-        this.id = id;
     }
 }
