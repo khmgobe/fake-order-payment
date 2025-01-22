@@ -3,7 +3,6 @@ package io.backend.assignment.controller.dto.request;
 import io.backend.assignment.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
@@ -20,14 +19,6 @@ public record ProductRequest(
         @NotNull(message = "수정 시간은 필수입니다.")
         LocalDateTime updatedAt) {
 
-    public ProductRequest {
-        Assert.hasText(name, "상품 이름은 필수입니다.");
-        Assert.notNull(price, "상품 가격은 필수입니다.");
-        Assert.notNull(stock, "수량은 필수입니다.");
-        Assert.notNull(createdAt, "생성 시간은 필수입니다.");
-        Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
-    }
-
     public Product toDomain(ProductRequest request) {
         return  Product.builder()
                 .name(request.name())
@@ -35,7 +26,7 @@ public record ProductRequest(
                 .price(request.price())
                 .stock(request.stock())
                 .createdAt(request.createdAt())
-                .createdAt(request.updatedAt())
+                .updatedAt(request.updatedAt())
                 .build();
     }
 }

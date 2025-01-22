@@ -44,7 +44,6 @@ public class Product {
     LocalDateTime createdAt;
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
-    @Getter
     LocalDateTime updatedAt;
 
     @Builder

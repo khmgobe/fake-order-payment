@@ -1,5 +1,6 @@
 package io.backend.assignment.common.api;
 
+import io.backend.assignment.common.TestScenario;
 import io.backend.assignment.controller.dto.request.ProductRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -22,7 +23,7 @@ public class RegisterProductApi {
         return this;
     }
 
-    public ValidatableResponse request() {
+    public TestScenario request() {
 
         ProductRequest request = new ProductRequest(name, description, price, stock, createdAt, updatedAt);
 
@@ -34,6 +35,6 @@ public class RegisterProductApi {
                 .post("/api/v1/products")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
-        return response;
+        return new TestScenario();
     }
 }
