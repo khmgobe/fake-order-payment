@@ -17,6 +17,11 @@ public class RegisterProductApi {
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime update_at = LocalDateTime.now();
 
+    public RegisterProductApi stock (final int stock) {
+        this.stock = stock;
+        return this;
+    }
+
     public ValidatableResponse request() {
 
         ProductRequest request = new ProductRequest(name, description, price, stock, create_at, update_at);
