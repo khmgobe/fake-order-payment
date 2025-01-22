@@ -40,10 +40,15 @@ class CartServiceTest {
 
         CartRequest request = new CartRequest(cartId, customerId, productId, quantity, createdAt, updatedAt);
 
+        registerCart.register(request);
+
     }
 
     private class RegisterCart {
 
+        public void register(final CartRequest request) {
+
+        }
     }
 
     private record CartRequest(
