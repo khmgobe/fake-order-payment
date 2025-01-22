@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class RegisterProductApi {
 
-    private String name = "name";
+    private String name = "test_name";
     private String description = "description";
     private long price = 10000L;
     private int stock = 2;
