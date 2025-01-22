@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "BIGINT")
     @Comment("상품 ID (고유 키)")
@@ -40,11 +41,10 @@ public class Product {
 
     @Column(name = "create_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성 시간")
-    LocalDateTime create_at;
+    LocalDateTime createdAt;
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
-    @Getter
-    LocalDateTime update_at;
+    LocalDateTime updatedAt;
 
     @Builder
     private Product(
@@ -52,28 +52,31 @@ public class Product {
             final String description,
             final Long price,
             final Integer stock,
-            final LocalDateTime create_at,
-            final LocalDateTime update_at) {
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.create_at = create_at;
-        this.update_at = update_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
-        validateConstructor(name, price, stock, create_at, update_at);
+        validateConstructor(name, price, stock, createdAt, updatedAt);
     }
 
     private void validateConstructor(
             final String name,
             final Long price,
             final Integer stock,
-            final LocalDateTime create_at,
-            final LocalDateTime update_at) {
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
         Assert.hasText(name, "상품 이름은 필수입니다.");
         Assert.notNull(price, "상품 가격은 필수입니다.");
         Assert.notNull(stock, "재고 수량은 필수입니다.");
-        Assert.notNull(create_at, "생성 시간은 필수입니다.");
-        Assert.notNull(update_at, "수정 시간은 필수입니다.");
+        if(1 > stock) {
+            throw new IllegalArgumentException("상품의 재고가 부족합니다.");
+        }
+        Assert.notNull(createdAt, "생성 시간은 필수입니다.");
+        Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
     }
 }

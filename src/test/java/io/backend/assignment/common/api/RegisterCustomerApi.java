@@ -1,5 +1,6 @@
 package io.backend.assignment.common.api;
 
+import io.backend.assignment.common.TestScenario;
 import io.backend.assignment.controller.dto.request.CustomerRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -11,18 +12,18 @@ import java.time.LocalDateTime;
 public class RegisterCustomerApi {
 
 
-    private String name = "customerName";
-    private LocalDateTime create_at = LocalDateTime.now();
-    private LocalDateTime update_at = LocalDateTime.now();
+    private String name = "test_customer";
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public RegisterCustomerApi name(String name) {
         this.name = name;
         return this;
     }
 
-    public ValidatableResponse request() {
+    public TestScenario request() {
 
-        CustomerRequest request = new CustomerRequest(name, create_at, update_at);
+        CustomerRequest request = new CustomerRequest(name, createdAt, updatedAt);
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
@@ -33,6 +34,6 @@ public class RegisterCustomerApi {
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
-        return response;
+        return new TestScenario();
     }
 }

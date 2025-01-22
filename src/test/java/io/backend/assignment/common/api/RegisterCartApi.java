@@ -1,7 +1,7 @@
 package io.backend.assignment.common.api;
 
 import io.backend.assignment.common.TestScenario;
-import io.backend.assignment.controller.dto.request.ProductRequest;
+import io.backend.assignment.controller.dto.request.CartRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -9,32 +9,31 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-public class RegisterProductApi {
+public class RegisterCartApi {
 
-    private String name = "test_name";
-    private String description = "description";
-    private long price = 10000L;
-    private int stock = 2;
+
+    private Long productId = 1L;
+    private Long customerId = 1L;
+    private int quantity = 3;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public RegisterProductApi stock (final int stock) {
-        this.stock = stock;
-        return this;
-    }
+    public ValidatableResponse register() {
 
-    public TestScenario request() {
+        TestScenario.registerCustomerApi().request();
+        TestScenario.registerProductApi().request();
 
-        ProductRequest request = new ProductRequest(name, description, price, stock, createdAt, updatedAt);
+        CartRequest request = new CartRequest(quantity, createdAt, updatedAt);
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
-                .body(request)
+                .body(request)  // CartRequest 객체를 본문에 넣음
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/v1/products")
+                .post("/api/v1/carts/{productId}/{customerId}", productId, customerId)
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
-        return new TestScenario();
+
+        return response;
     }
 }
