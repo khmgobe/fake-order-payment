@@ -1,7 +1,7 @@
-package io.backend.assignment.controller;
+package io.backend.assignment.product.controller;
 
-import io.backend.assignment.controller.dto.request.ProductRequest;
-import io.backend.assignment.service.ProductService;
+import io.backend.assignment.product.controller.request.ProductRequest;
+import io.backend.assignment.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

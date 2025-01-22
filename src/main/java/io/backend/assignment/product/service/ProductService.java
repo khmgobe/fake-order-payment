@@ -1,8 +1,8 @@
-package io.backend.assignment.service;
+package io.backend.assignment.product.service;
 
-import io.backend.assignment.controller.dto.request.ProductRequest;
-import io.backend.assignment.domain.Product;
-import io.backend.assignment.repository.ProductRepository;
+import io.backend.assignment.product.controller.request.ProductRequest;
+import io.backend.assignment.product.domain.Product;
+import io.backend.assignment.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

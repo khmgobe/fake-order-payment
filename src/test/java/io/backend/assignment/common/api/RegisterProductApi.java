@@ -1,7 +1,7 @@
 package io.backend.assignment.common.api;
 
 import io.backend.assignment.common.TestScenario;
-import io.backend.assignment.controller.dto.request.ProductRequest;
+import io.backend.assignment.product.controller.request.ProductRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
