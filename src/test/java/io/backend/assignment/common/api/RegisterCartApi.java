@@ -11,27 +11,26 @@ import java.time.LocalDateTime;
 
 public class RegisterCartApi {
 
-    private Long cartId = 1L;
+
+    private Long productId = 1L;
+    private Long customerId = 1L;
     private int quantity = 3;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public ValidatableResponse register(Long productId, Long customerId) {
+    public ValidatableResponse register() {
 
-        // 고객과 상품을 미리 등록하는 시나리오 실행
         TestScenario.registerCustomerApi().request();
         TestScenario.registerProductApi().request();
 
-        // CartRequest 객체 생성
         CartRequest request = new CartRequest(quantity, createdAt, updatedAt);
 
-        // API 요청
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
                 .body(request)  // CartRequest 객체를 본문에 넣음
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/v1/carts/" + productId + "/" + customerId)  // URL 경로에 productId와 customerId 포함
+                .post("/api/v1/carts/{productId}/{customerId}", productId, customerId)
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
