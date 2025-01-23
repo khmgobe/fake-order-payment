@@ -42,5 +42,14 @@ class CartController {
 
         return ResponseEntity.ok().build();
     }
+
+
+    @DeleteMapping("/api/v1/carts/{cartId}")
+    public ResponseEntity<Void> deleteCart (@PathVariable final Long cartId) {
+
+        cartServiceUseCase.deleteCart(cartId);
+
+        return ResponseEntity.ok().build();
+    }
 }
 
