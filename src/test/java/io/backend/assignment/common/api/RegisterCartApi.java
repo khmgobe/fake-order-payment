@@ -1,7 +1,7 @@
 package io.backend.assignment.common.api;
 
 import io.backend.assignment.common.TestScenario;
-import io.backend.assignment.cart.controller.dto.request.CartRequest;
+import io.backend.assignment.cart.controller.dto.request.RegisterCartRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -23,7 +23,7 @@ public class RegisterCartApi {
         TestScenario.registerCustomerApi().request();
         TestScenario.registerProductApi().request();
 
-        CartRequest request = new CartRequest(quantity, createdAt, updatedAt);
+        RegisterCartRequest request = new RegisterCartRequest(quantity, createdAt, updatedAt);
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
