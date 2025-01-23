@@ -10,7 +10,7 @@ public class CustomerSteps extends ApiTest {
 
     public static CustomerRequest customerRequest() {
 
-        final String name = "customerName";
+        final String name = "customerName" + System.currentTimeMillis();
         final LocalDateTime createdAt = LocalDateTime.now();
         final LocalDateTime updatedAt = LocalDateTime.now();
 
