@@ -9,14 +9,13 @@ import io.backend.assignment.customer.service.CustomerService;
 import io.backend.assignment.product.ProductSteps;
 import io.backend.assignment.product.controller.request.ProductRequest;
 import io.backend.assignment.product.service.ProductService;
+import io.backend.assignment.util.exception.CartNotFoundException;
 import io.backend.assignment.util.exception.ExceedsStockQuantityException;
 import io.backend.assignment.util.exception.InsufficientStockQuantityException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.NestedTestConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -117,13 +116,10 @@ class CartServiceTest {
 
         cartService.deleteCart(cartId);
 
-
-
+        assertThatThrownBy(() -> cartService.getCart(cartId))
+                .isInstanceOf(CartNotFoundException.class)
+                .hasMessageContaining("장바구니는 존재하지 않습니다.");
     }
-
-
-
-
 
     /** Support Method **/
     private void registerCustomer() {
