@@ -12,9 +12,11 @@ import io.backend.assignment.product.service.ProductService;
 import io.backend.assignment.util.exception.ExceedsStockQuantityException;
 import io.backend.assignment.util.exception.InsufficientStockQuantityException;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.NestedTestConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -30,7 +32,6 @@ class CartServiceTest {
 
     @Autowired
     private CustomerService customerService;
-
 
     @Test
     @DisplayName("장바구니에 상품을 등록한다. [정상 케이스]")
@@ -102,7 +103,27 @@ class CartServiceTest {
                 .isInstanceOf(ExceedsStockQuantityException.class)
                 .hasMessageContaining("수량이 재고를 초과합니다.");
     }
+    
+    
+    @Test
+    @DisplayName("장바구니를 삭제한다. [성공 케이스]")
+    void deleteCart()  {
 
+        // given: 장바구니 아이디와 수량을 설정하고 상품을 장바구니에 담는다.
+        final Long cartId = 1L;
+        final int quantity = 5;
+
+        addProductToCart(quantity);
+
+        cartService.deleteCart(cartId);
+
+    }
+
+
+
+
+
+    /** Support Method **/
     private void registerCustomer() {
         final CustomerRequest customerRequest = CustomerSteps.customerRequest();
         customerService.register(customerRequest);
