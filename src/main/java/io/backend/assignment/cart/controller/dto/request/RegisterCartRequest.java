@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record CartRequest(
+public record RegisterCartRequest(
 
         @NotNull(message = "수량은 필수입니다.")
         int quantity,

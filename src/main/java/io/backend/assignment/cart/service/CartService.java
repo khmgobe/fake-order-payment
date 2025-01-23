@@ -1,13 +1,16 @@
 package io.backend.assignment.cart.service;
 
+import io.backend.assignment.cart.controller.dto.request.UpdateCartRequest;
+import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.cart.repository.CartRepository;
 import io.backend.assignment.cart.service.usecase.CartServiceUseCase;
-import io.backend.assignment.cart.controller.dto.request.CartRequest;
+import io.backend.assignment.cart.controller.dto.request.RegisterCartRequest;
 import io.backend.assignment.cart.domain.Cart;
 import io.backend.assignment.customer.domain.Customer;
 import io.backend.assignment.product.domain.Product;
 import io.backend.assignment.customer.repository.CustomerRepository;
 import io.backend.assignment.product.repository.ProductRepository;
+import io.backend.assignment.util.exception.CartNotFoundException;
 import io.backend.assignment.util.exception.CustomerNotFoundException;
 import io.backend.assignment.util.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,7 @@ public class CartService implements CartServiceUseCase {
 
     @Override
     @Transactional
-    public void register(final Long productId, final Long customerId, final CartRequest request) {
+    public void register(final Long productId, final Long customerId, final RegisterCartRequest request) {
 
         final Product product = productRepository
                 .findById(productId)
@@ -38,5 +41,29 @@ public class CartService implements CartServiceUseCase {
         final Cart cart = request.toDomain(product, customer);
 
         cartRepository.save(cart);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GetCartResponse getCart(final Long cartId) {
+
+        final Cart cart = cartRepository
+                .findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException(cartId));
+
+        final GetCartResponse cartResponse = cart.toCartResponse(cart);
+
+        return cartResponse;
+    }
+
+    @Transactional
+    public void updateCart(final Long cartId, final UpdateCartRequest request) {
+
+        final Cart cart =
+                cartRepository
+                        .findById(cartId)
+                        .orElseThrow(() -> new CartNotFoundException(cartId));
+
+        cart.changeQuantity(request.quantity());
     }
 }

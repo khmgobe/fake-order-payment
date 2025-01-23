@@ -14,7 +14,7 @@ public class RegisterProductApi {
     private String name = "test_name";
     private String description = "description";
     private long price = 10000L;
-    private int stock = 2;
+    private int stock = 5;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 

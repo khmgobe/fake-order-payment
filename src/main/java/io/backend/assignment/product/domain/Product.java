@@ -11,13 +11,13 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Table(name = "product")
 @Comment("상품 테이블")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "BIGINT")
     @Comment("상품 ID (고유 키)")
@@ -73,10 +73,14 @@ public class Product {
         Assert.hasText(name, "상품 이름은 필수입니다.");
         Assert.notNull(price, "상품 가격은 필수입니다.");
         Assert.notNull(stock, "재고 수량은 필수입니다.");
+        validationStock(stock);
+        Assert.notNull(createdAt, "생성 시간은 필수입니다.");
+        Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
+    }
+
+    public void validationStock(final Integer stock) {
         if(1 > stock) {
             throw new IllegalArgumentException("상품의 재고가 부족합니다.");
         }
-        Assert.notNull(createdAt, "생성 시간은 필수입니다.");
-        Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
     }
 }
