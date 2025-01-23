@@ -1,11 +1,9 @@
 package io.backend.assignment.cart.controller.dto.request;
 
-import org.springframework.util.Assert;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateCartRequest(
-        Integer quantity) {
 
-    public UpdateCartRequest {
-        Assert.notNull(quantity, "수량은 필수입니다.");
-    }
+        @NotNull(message = "수량은 필수입니다.")
+        Integer quantity) {
 }

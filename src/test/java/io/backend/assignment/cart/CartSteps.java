@@ -8,9 +8,8 @@ import java.time.LocalDateTime;
 
 public class CartSteps extends ApiTest {
 
-    public static RegisterCartRequest cartRequest() {
+    public static RegisterCartRequest cartRequest(final int quantity) {
 
-        int quantity = 3;
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime updatedAt = LocalDateTime.now();
 

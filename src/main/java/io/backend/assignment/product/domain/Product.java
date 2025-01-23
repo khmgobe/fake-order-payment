@@ -11,13 +11,13 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Table(name = "product")
 @Comment("상품 테이블")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "BIGINT")
     @Comment("상품 ID (고유 키)")
