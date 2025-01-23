@@ -1,4 +1,4 @@
-package io.backend.assignment.feature;
+package io.backend.assignment.product;
 
 import io.backend.assignment.common.ApiTest;
 import io.backend.assignment.common.TestScenario;

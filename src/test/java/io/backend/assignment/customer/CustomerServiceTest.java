@@ -1,4 +1,4 @@
-package io.backend.assignment.feature;
+package io.backend.assignment.customer;
 
 import io.backend.assignment.common.ApiTest;
 import io.backend.assignment.common.TestScenario;
@@ -24,3 +24,4 @@ class CustomerServiceTest extends ApiTest {
         assertThat(customerRepository.findAll().size()).isEqualTo(1);
     }
 }
+
