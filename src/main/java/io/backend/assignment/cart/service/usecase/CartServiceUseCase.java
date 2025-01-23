@@ -14,4 +14,6 @@ public interface CartServiceUseCase {
     GetCartResponse getCart(final Long cartId);
 
     void updateCart(final Long cartId, final UpdateCartRequest updateCartRequest);
+
+    void deleteCart(final Long cartId);
 }
