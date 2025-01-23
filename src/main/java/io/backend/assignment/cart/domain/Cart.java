@@ -1,10 +1,13 @@
 package io.backend.assignment.cart.domain;
 
+import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.customer.domain.Customer;
 import io.backend.assignment.product.domain.Product;
+import io.backend.assignment.util.exception.InvalidQuantityException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
@@ -12,6 +15,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter(AccessLevel.PROTECTED)
 @Table(name = "cart")
 @Comment("장바구니")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -67,4 +71,23 @@ public class Cart {
         Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
     }
 
+    public GetCartResponse toCartResponse(final Cart cart) {
+        return GetCartResponse
+                .builder()
+                .id(cart.getId())
+                .quantity(cart.getQuantity())
+                .createdAt(cart.getCreatedAt())
+                .updatedAt(cart.getUpdatedAt())
+                .build();
+    }
+
+    public void changeQuantity(final Integer quantity) {
+        Assert.notNull(quantity, "수량은 필수입니다.");
+
+        final int newQuantity = this.quantity + quantity;
+        if (newQuantity < 1) {
+            throw new InvalidQuantityException(newQuantity);
+        }
+        this.quantity = newQuantity;
+    }
 }
