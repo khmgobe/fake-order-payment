@@ -69,6 +69,11 @@ public class CartService implements CartServiceUseCase {
 
     @Transactional
     public void deleteCart(final Long cartId) {
+
+        cartRepository.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException(cartId));
+
         cartRepository.deleteById(cartId);
     }
+
 }
