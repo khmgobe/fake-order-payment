@@ -3,7 +3,8 @@ package io.backend.assignment.cart.domain;
 import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.customer.domain.Customer;
 import io.backend.assignment.product.domain.Product;
-import io.backend.assignment.util.exception.InvalidQuantityException;
+import io.backend.assignment.util.exception.ExceedsStockQuantityException;
+import io.backend.assignment.util.exception.InsufficientStockQuantityException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter(AccessLevel.PROTECTED)
+@Getter
 @Table(name = "cart")
 @Comment("장바구니")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -64,11 +65,28 @@ public class Cart {
         Assert.notNull(customer, "사용자는 필수입니다.");
         Assert.notNull(product, "상품은 필수입니다.");
         Assert.notNull(quantity, "수량은 필수입니다.");
-        if (1 > quantity) {
-            throw new IllegalArgumentException("수량은 1개 이상이어야 합니다.");
-        }
+        validateQuantity(quantity);
         Assert.notNull(createdAt, "생성 시간은 필수입니다.");
         Assert.notNull(updatedAt, "수정 시간은 필수입니다.");
+    }
+
+    private void validateQuantity(final Integer quantity) {
+
+        if (quantity > product.getStock()) {
+            throw new ExceedsStockQuantityException(product.getStock(), quantity);
+        }
+
+        if (1 > quantity) {
+            throw new InsufficientStockQuantityException(quantity);
+        }
+    }
+
+    public void changeQuantity(final Integer quantity) {
+        Assert.notNull(quantity, "수량은 필수입니다.");
+
+        validateQuantity(quantity);
+
+        this.quantity = quantity;
     }
 
     public GetCartResponse toCartResponse(final Cart cart) {
@@ -79,15 +97,5 @@ public class Cart {
                 .createdAt(cart.getCreatedAt())
                 .updatedAt(cart.getUpdatedAt())
                 .build();
-    }
-
-    public void changeQuantity(final Integer quantity) {
-        Assert.notNull(quantity, "수량은 필수입니다.");
-
-        final int newQuantity = this.quantity + quantity;
-        if (newQuantity < 1) {
-            throw new InvalidQuantityException(newQuantity);
-        }
-        this.quantity = newQuantity;
     }
 }
