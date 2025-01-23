@@ -14,7 +14,7 @@ public class RegisterCartApi {
 
     private Long productId = 1L;
     private Long customerId = 1L;
-    private int quantity = 3;
+    private int quantity = 2;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
@@ -27,7 +27,7 @@ public class RegisterCartApi {
 
         final ValidatableResponse response = RestAssured.given().log().all()
                 .when()
-                .body(request)  // CartRequest 객체를 본문에 넣음
+                .body(request)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/v1/carts/{productId}/{customerId}", productId, customerId)
