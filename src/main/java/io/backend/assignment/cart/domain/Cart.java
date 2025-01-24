@@ -2,6 +2,7 @@ package io.backend.assignment.cart.domain;
 
 import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.customer.domain.Customer;
+import io.backend.assignment.order.domain.Order;
 import io.backend.assignment.product.domain.Product;
 import io.backend.assignment.util.exception.ExceedsStockQuantityException;
 import io.backend.assignment.util.exception.InsufficientStockQuantityException;
@@ -44,6 +45,10 @@ public class Cart {
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Builder
     private Cart(final Customer customer,
