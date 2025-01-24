@@ -2,6 +2,7 @@ package io.backend.assignment.common;
 
 import io.backend.assignment.common.api.RegisterCartApi;
 import io.backend.assignment.common.api.RegisterCustomerApi;
+import io.backend.assignment.common.api.RegisterOrderApi;
 import io.backend.assignment.common.api.RegisterProductApi;
 
 public class TestScenario {
@@ -16,5 +17,9 @@ public class TestScenario {
 
     public static RegisterCartApi registerCartApi() {
         return new RegisterCartApi();
+    }
+
+    public static RegisterOrderApi registerOrderApi() {
+        return new RegisterOrderApi();
     }
 }
