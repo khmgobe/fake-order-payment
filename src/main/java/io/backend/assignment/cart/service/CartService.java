@@ -10,9 +10,6 @@ import io.backend.assignment.customer.domain.Customer;
 import io.backend.assignment.product.domain.Product;
 import io.backend.assignment.customer.repository.CustomerRepository;
 import io.backend.assignment.product.repository.ProductRepository;
-import io.backend.assignment.util.exception.CartNotFoundException;
-import io.backend.assignment.util.exception.CustomerNotFoundException;
-import io.backend.assignment.util.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +27,9 @@ public class CartService implements CartServiceUseCase {
     @Transactional
     public void register(final Long productId, final Long customerId, final RegisterCartRequest request) {
 
-        final Product product = productRepository
-                .findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
+        final Product product = productRepository.getBy(productId);
 
-        final Customer customer = customerRepository
-                .findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException(customerId));
+        final Customer customer = customerRepository.getBy(customerId);
 
         final Cart cart = request.toDomain(product, customer);
 
@@ -47,9 +40,7 @@ public class CartService implements CartServiceUseCase {
     @Transactional(readOnly = true)
     public GetCartResponse getCart(final Long cartId) {
 
-        final Cart cart = cartRepository
-                .findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        final Cart cart = cartRepository.getBy(cartId);
 
         final GetCartResponse cartResponse = cart.toCartResponse(cart);
 
@@ -59,10 +50,7 @@ public class CartService implements CartServiceUseCase {
     @Transactional
     public void updateCart(final Long cartId, final UpdateCartRequest request) {
 
-        final Cart cart =
-                cartRepository
-                        .findById(cartId)
-                        .orElseThrow(() -> new CartNotFoundException(cartId));
+        final Cart cart = cartRepository.getBy(cartId);
 
         cart.changeQuantity(request.quantity());
     }
@@ -70,10 +58,8 @@ public class CartService implements CartServiceUseCase {
     @Transactional
     public void deleteCart(final Long cartId) {
 
-        cartRepository.findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+        final Cart cart = cartRepository.getBy(cartId);
 
         cartRepository.deleteById(cartId);
     }
-
 }
