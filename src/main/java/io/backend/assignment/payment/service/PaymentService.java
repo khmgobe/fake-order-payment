@@ -29,13 +29,14 @@ public class PaymentService implements PaymentServiceUseCase {
 
         final PaymentResponse paymentResponse = paymentClient.processPayment(request);
 
-        if (paymentResponse.status().equals(PaymentStatus.SUCCESS.name())) {
-            order.confirmOrder();
-        } else {
+        if (paymentResponse.status().equals(PaymentStatus.FAILED.name())) {
             throw new PaymentFailedException(paymentResponse.message());
         }
 
-        orderRepository.save(order);
+        if (paymentResponse.status().equals(PaymentStatus.SUCCESS.name())) {
+            order.confirmOrder();
+            orderRepository.save(order);
+        }
 
         return paymentResponse;
     }
