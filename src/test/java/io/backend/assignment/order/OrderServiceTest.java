@@ -12,6 +12,7 @@ import io.backend.assignment.order.service.usecase.OrderService;
 import io.backend.assignment.product.ProductSteps;
 import io.backend.assignment.product.controller.request.ProductRequest;
 import io.backend.assignment.product.service.ProductService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,19 @@ class OrderServiceTest {
     @Autowired
     private ProductService productService;
 
+    @BeforeEach
+    void setUp() {
+        // 테스트 전마다 장바구니와 상품 데이터를 초기화
+        registerCustomer();
+        registerProduct();
+        addProductToCart(5);  // 장바구니에 상품을 5개 담음
+    }
 
     @Test
     @DisplayName("주문을 생성한다. [정상 케이스]")
     void createOrder() {
-
         // given : 고객과 상품을 준비하고 장바구니에 담는다.
         final Long customerId = 1L;
-        final int quantity = 5;
-        addProductToCart(quantity);
 
         // when : 주문 요청을 처리한다.
         final RegisterOrderRequest registerOrderRequest = OrderSteps.orderRequest();
@@ -67,9 +72,6 @@ class OrderServiceTest {
     private void addProductToCart(final int quantity) {
         final Long productId = 1L;
         final Long customerId = 1L;
-
-        registerProduct();
-        registerCustomer();
 
         cartService.register(productId, customerId, CartSteps.cartRequest(quantity));
     }
