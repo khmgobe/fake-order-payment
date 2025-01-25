@@ -1,4 +1,4 @@
-package io.backend.assignment.payment.dto.response;
+package io.backend.assignment.payment.domain.dto.response;
 
 public record PaymentResponse(
         String status,
