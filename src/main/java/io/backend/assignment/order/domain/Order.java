@@ -83,10 +83,6 @@ public class Order {
         Assert.notNull(updatedAt, "주문 수정 시간은 필수입니다.");
     }
 
-    public void changeOrderStatus(OrderStatus status) {
-        this.orderStatus = status;
-    }
-
     public GetOrderResponse toOrderResponse(final Order order) {
         return GetOrderResponse
                 .builder()
@@ -95,5 +91,9 @@ public class Order {
                 .createdAt(order.getCreatedAt())
                 .updatedAt(order.getUpdatedAt())
                 .build();
+    }
+
+    public void confirmOrder() {
+        this.orderStatus = OrderStatus.COMPLETE;
     }
 }
