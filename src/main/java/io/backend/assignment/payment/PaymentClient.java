@@ -1,7 +1,7 @@
 package io.backend.assignment.payment;
 
-import io.backend.assignment.payment.dto.request.RegisterPaymentRequest;
-import io.backend.assignment.payment.dto.response.PaymentResponse;
+import io.backend.assignment.payment.domain.dto.request.RegisterPaymentRequest;
+import io.backend.assignment.payment.domain.dto.response.PaymentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

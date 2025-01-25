@@ -1,4 +1,4 @@
-package io.backend.assignment.payment.dto.request;
+package io.backend.assignment.payment.domain.dto.request;
 
 import lombok.Builder;
 import org.springframework.util.Assert;

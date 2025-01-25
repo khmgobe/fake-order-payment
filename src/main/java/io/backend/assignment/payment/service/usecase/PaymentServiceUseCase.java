@@ -1,8 +1,8 @@
 package io.backend.assignment.payment.service.usecase;
 
-import io.backend.assignment.payment.dto.response.PaymentResponse;
+import io.backend.assignment.payment.domain.dto.response.PaymentResponse;
 
 public interface PaymentServiceUseCase {
 
-    public PaymentResponse payment(Long orderId);
+    PaymentResponse payment(Long orderId);
 }
