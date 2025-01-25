@@ -94,6 +94,18 @@ public class Order {
     }
 
     public void confirmOrder() {
-        this.orderStatus = OrderStatus.COMPLETE;
+        if(orderStatus.equals(OrderStatus.PENDING)) {
+            orderStatus = OrderStatus.COMPLETE;
+        }
+    }
+
+    private static Long totalPrice(Cart cart) {
+        return cart.getProduct().getPrice() * cart.getQuantity();
+    }
+
+    public static Long calculateTotalAmount(List<Cart> carts) {
+        return carts.stream()
+                .mapToLong(cart -> totalPrice(cart))
+                .sum();
     }
 }
