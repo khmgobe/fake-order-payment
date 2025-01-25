@@ -9,6 +9,7 @@ import io.backend.assignment.order.controller.dto.response.GetOrderResponse;
 import io.backend.assignment.order.domain.Order;
 import io.backend.assignment.order.repository.OrderRepository;
 import io.backend.assignment.util.exception.CustomerNotFoundException;
+import io.backend.assignment.util.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,18 @@ public class OrderService implements OrderServiceUseCase {
         final Order order = request.toDomain(customer, carts, totalAmount);
 
         orderRepository.save(order);
+
+        final GetOrderResponse orderResponse = order.toOrderResponse(order);
+
+        return orderResponse;
+    }
+
+    @Transactional(readOnly = true)
+    public GetOrderResponse getOrder(final Long orderId) {
+
+
+        final Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
 
         final GetOrderResponse orderResponse = order.toOrderResponse(order);
 

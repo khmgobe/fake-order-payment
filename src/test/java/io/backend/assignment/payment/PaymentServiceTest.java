@@ -1,14 +1,18 @@
-package io.backend.assignment.order;
+package io.backend.assignment.payment;
 
 import io.backend.assignment.cart.CartSteps;
 import io.backend.assignment.cart.service.CartService;
 import io.backend.assignment.customer.CustomerSteps;
 import io.backend.assignment.customer.controller.dto.request.CustomerRequest;
 import io.backend.assignment.customer.service.CustomerService;
+import io.backend.assignment.order.OrderSteps;
 import io.backend.assignment.order.controller.dto.request.RegisterOrderRequest;
 import io.backend.assignment.order.controller.dto.response.GetOrderResponse;
 import io.backend.assignment.order.domain.enumeration.OrderStatus;
 import io.backend.assignment.order.service.usecase.OrderService;
+import io.backend.assignment.payment.dto.response.PaymentResponse;
+import io.backend.assignment.payment.enumeration.PaymentStatus;
+import io.backend.assignment.payment.service.PaymentService;
 import io.backend.assignment.product.ProductSteps;
 import io.backend.assignment.product.controller.request.ProductRequest;
 import io.backend.assignment.product.service.ProductService;
@@ -21,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class OrderServiceTest {
+class PaymentServiceTest {
 
     @Autowired
     private OrderService orderService;
@@ -35,28 +39,36 @@ class OrderServiceTest {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private PaymentService paymentService;
+
     @BeforeEach
     void setUp() {
-        // 테스트 전마다 장바구니와 상품 데이터를 초기화
         registerCustomer();
         registerProduct();
-        addProductToCart(5);  // 장바구니에 상품을 5개 담음
+        addProductToCart(5);
     }
 
     @Test
-    @DisplayName("주문을 생성한다. [정상 케이스]")
-    void createOrder() {
-        // given : 고객과 상품을 준비하고 장바구니에 담는다.
+    @DisplayName("주문을 생성하고 결제를 처리한다. [정상 케이스]")
+    void createOrderAndProcessPayment() {
+
         final Long customerId = 1L;
+        final Long orderId = 1L;
 
-        // when : 주문 요청을 처리한다.
+        // given : 주문 요청에 필요한 데이터를 만들고 주문을 요청한다.
         final RegisterOrderRequest registerOrderRequest = OrderSteps.orderRequest();
-        GetOrderResponse orderResponse = orderService.createOrder(customerId, registerOrderRequest);
+        final GetOrderResponse orderResponse = orderService.createOrder(customerId, registerOrderRequest);
 
-        // then : 주문이 정상적으로 생성되었는지 확인한다.
-        assertThat(orderResponse).isNotNull();
-        assertThat(orderResponse.totalAmount()).isEqualTo(75000L);
-        assertThat(orderResponse.orderStatus()).isEqualTo(OrderStatus.PENDING);
+        // when : 결제 요청을 처리한다.
+        final PaymentResponse paymentResponse = paymentService.payment(orderId);
+
+        // then : 결제가 정상적으로 처리되었는지 확인하고 결제 후 변동된 주문 상태를 확인한다.
+        assertThat(paymentResponse.status()).isEqualTo(PaymentStatus.SUCCESS.name());
+        assertThat(paymentResponse.message()).isEqualTo("Payment processed successfully");
+
+        final GetOrderResponse afterOrderResponse = orderService.getOrder(orderId);
+        assertThat(afterOrderResponse.orderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
 
     private void registerCustomer() {
