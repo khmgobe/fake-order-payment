@@ -1,4 +1,4 @@
-package io.backend.assignment.order.service.usecase;
+package io.backend.assignment.order.service;
 
 import io.backend.assignment.cart.domain.Cart;
 import io.backend.assignment.cart.repository.CartRepository;
@@ -8,6 +8,7 @@ import io.backend.assignment.order.controller.dto.request.RegisterOrderRequest;
 import io.backend.assignment.order.controller.dto.response.GetOrderResponse;
 import io.backend.assignment.order.domain.Order;
 import io.backend.assignment.order.repository.OrderRepository;
+import io.backend.assignment.order.service.usecase.OrderServiceUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
