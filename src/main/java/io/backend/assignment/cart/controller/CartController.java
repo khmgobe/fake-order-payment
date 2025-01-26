@@ -4,18 +4,22 @@ import io.backend.assignment.cart.controller.dto.request.UpdateCartRequest;
 import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.cart.service.usecase.CartServiceUseCase;
 import io.backend.assignment.cart.controller.dto.request.RegisterCartRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "MANAGE-CART", description = "장바구니 관리 관련 API")
 @RestController
 @RequiredArgsConstructor
 class CartController {
 
     private final CartServiceUseCase cartServiceUseCase;
 
+    @Operation(summary = "장바구니 등록")
     @PostMapping("/api/v1/carts/{productId}/{customerId}")
     public ResponseEntity<Void> registerCart(
             @PathVariable final Long productId,
@@ -27,6 +31,7 @@ class CartController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(summary = "장바구니 조회")
     @GetMapping("/api/v1/carts/{cartId}")
     public ResponseEntity<GetCartResponse> getCart(@PathVariable final Long cartId) {
 
@@ -35,6 +40,7 @@ class CartController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "장바구니 수정")
     @PatchMapping("/api/v1/carts/{cartId}")
     public ResponseEntity<Void> updateCart (@PathVariable final Long cartId, @RequestBody @Valid final UpdateCartRequest request) {
 
@@ -43,7 +49,7 @@ class CartController {
         return ResponseEntity.ok().build();
     }
 
-
+    @Operation(summary = "장바구니 삭제")
     @DeleteMapping("/api/v1/carts/{cartId}")
     public ResponseEntity<Void> deleteCart (@PathVariable final Long cartId) {
 
