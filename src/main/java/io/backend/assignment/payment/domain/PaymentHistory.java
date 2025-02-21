@@ -2,14 +2,13 @@ package io.backend.assignment.payment.domain;
 
 import io.backend.assignment.payment.domain.dto.response.PaymentHistoryResponse;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -43,7 +42,11 @@ public class PaymentHistory {
     @Comment("결제 트랜잭션 ID")
     private String transactionId;
 
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            name = "created_at",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성 시간")
     private LocalDateTime createAt;
 
@@ -66,7 +69,7 @@ public class PaymentHistory {
         Assert.notNull(customerId, "사용자 아이디는 필수입니다.");
         Assert.notNull(amount, "결제 금액은 필수입니다.");
         Assert.notNull(status, "결제 상태는 필수입니다.");
-        Assert.notNull(createAt,"생성 시간은 필수입니다." );
+        Assert.notNull(createAt, "생성 시간은 필수입니다.");
     }
 
     public void changeStatus(final String status) {
@@ -74,8 +77,7 @@ public class PaymentHistory {
     }
 
     public PaymentHistoryResponse toPaymentHistoryResponse(final PaymentHistory paymentHistory) {
-        return PaymentHistoryResponse
-                .builder()
+        return PaymentHistoryResponse.builder()
                 .orderId(paymentHistory.getOrderId())
                 .customerId(paymentHistory.getCustomerId())
                 .amount(paymentHistory.getAmount())

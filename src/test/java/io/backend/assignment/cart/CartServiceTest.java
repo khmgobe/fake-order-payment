@@ -1,5 +1,8 @@
 package io.backend.assignment.cart;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import io.backend.assignment.cart.controller.dto.request.UpdateCartRequest;
 import io.backend.assignment.cart.controller.dto.response.GetCartResponse;
 import io.backend.assignment.cart.service.CartService;
@@ -17,20 +20,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 @SpringBootTest
 class CartServiceTest {
 
-    @Autowired
-    private CartService cartService;
+    @Autowired private CartService cartService;
 
-    @Autowired
-    private ProductService productService;
+    @Autowired private ProductService productService;
 
-    @Autowired
-    private CustomerService customerService;
+    @Autowired private CustomerService customerService;
 
     @Test
     @DisplayName("장바구니에 상품을 등록한다. [정상 케이스]")
@@ -102,11 +99,10 @@ class CartServiceTest {
                 .isInstanceOf(ExceedsStockQuantityException.class)
                 .hasMessageContaining("수량이 재고를 초과합니다.");
     }
-    
-    
+
     @Test
     @DisplayName("장바구니를 삭제한다. [성공 케이스]")
-    void deleteCart()  {
+    void deleteCart() {
 
         // given: 장바구니 아이디와 수량을 설정하고 상품을 장바구니에 담는다.
         final Long cartId = 1L;
@@ -121,7 +117,7 @@ class CartServiceTest {
                 .hasMessageContaining("장바구니는 존재하지 않습니다.");
     }
 
-    /** Support Method **/
+    /** Support Method * */
     private void registerCustomer() {
         final CustomerRequest customerRequest = CustomerSteps.customerRequest();
         customerService.register(customerRequest);

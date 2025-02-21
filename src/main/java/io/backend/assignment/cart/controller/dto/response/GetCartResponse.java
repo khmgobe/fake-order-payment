@@ -1,17 +1,12 @@
 package io.backend.assignment.cart.controller.dto.response;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
-
 @Builder
 public record GetCartResponse(
-        Long id,
-        Integer quantity,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
-        ) {
+        Long id, Integer quantity, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
     public GetCartResponse {
         Assert.notNull(id, "아이디는 필수입니다.");

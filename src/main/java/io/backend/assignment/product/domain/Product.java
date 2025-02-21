@@ -1,14 +1,13 @@
 package io.backend.assignment.product.domain;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -39,10 +38,18 @@ public class Product {
     @Comment("재고 수량")
     private Integer stock;
 
-    @Column(name = "create_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성 시간")
     LocalDateTime createdAt;
-    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+
+    @Column(
+            name = "updated_at",
+            nullable = false,
+            columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
     LocalDateTime updatedAt;
 
@@ -79,7 +86,7 @@ public class Product {
     }
 
     public void validationStock(final Integer stock) {
-        if(1 > stock) {
+        if (1 > stock) {
             throw new IllegalArgumentException("상품의 재고가 부족합니다.");
         }
     }

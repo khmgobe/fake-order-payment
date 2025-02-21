@@ -1,11 +1,10 @@
 package io.backend.assignment.product;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import io.backend.assignment.product.domain.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ProductTest {
 

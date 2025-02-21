@@ -29,7 +29,8 @@ public class PaymentService implements PaymentServiceUseCase {
 
         final Order order = orderRepository.getBy(orderId);
 
-        final RegisterPaymentRequest request = RegisterPaymentRequest.createRequest(orderId, order.getTotalAmount());
+        final RegisterPaymentRequest request =
+                RegisterPaymentRequest.createRequest(orderId, order.getTotalAmount());
 
         final PaymentResponse paymentResponse = paymentClient.processPayment(request);
 

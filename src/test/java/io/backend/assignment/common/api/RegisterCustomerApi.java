@@ -5,12 +5,10 @@ import io.backend.assignment.customer.controller.dto.request.CustomerRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
-
 public class RegisterCustomerApi {
-
 
     private String name = "test_customer";
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -25,14 +23,19 @@ public class RegisterCustomerApi {
 
         CustomerRequest request = new CustomerRequest(name, createdAt, updatedAt);
 
-        final ValidatableResponse response = RestAssured.given().log().all()
-                .when()
-                .body(request)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/v1/customers")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
+        final ValidatableResponse response =
+                RestAssured.given()
+                        .log()
+                        .all()
+                        .when()
+                        .body(request)
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .post("/api/v1/customers")
+                        .then()
+                        .log()
+                        .all()
+                        .statusCode(HttpStatus.CREATED.value());
 
         return new TestScenario();
     }

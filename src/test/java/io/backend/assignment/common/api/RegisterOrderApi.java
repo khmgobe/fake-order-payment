@@ -6,9 +6,8 @@ import io.backend.assignment.order.domain.enumeration.OrderStatus;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
 
 public class RegisterOrderApi {
 
@@ -21,16 +20,22 @@ public class RegisterOrderApi {
 
         TestScenario.registerCartApi().register();
 
-        final RegisterOrderRequest request = new RegisterOrderRequest(orderStatus, createdAt, updatedAt);
+        final RegisterOrderRequest request =
+                new RegisterOrderRequest(orderStatus, createdAt, updatedAt);
 
-        final ValidatableResponse response = RestAssured.given().log().all()
-                .when()
-                .body(request)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/v1/orders/{customerId}", customerId)
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
+        final ValidatableResponse response =
+                RestAssured.given()
+                        .log()
+                        .all()
+                        .when()
+                        .body(request)
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .post("/api/v1/orders/{customerId}", customerId)
+                        .then()
+                        .log()
+                        .all()
+                        .statusCode(HttpStatus.CREATED.value());
 
         return response;
     }

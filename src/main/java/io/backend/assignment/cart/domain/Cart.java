@@ -7,14 +7,13 @@ import io.backend.assignment.product.domain.Product;
 import io.backend.assignment.util.exception.ExceedsStockQuantityException;
 import io.backend.assignment.util.exception.InsufficientStockQuantityException;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -31,10 +30,18 @@ public class Cart {
     @Comment("상품 수량")
     private Integer quantity;
 
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            name = "created_at",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성 시간")
     private LocalDateTime createdAt;
-    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+
+    @Column(
+            name = "updated_at",
+            nullable = false,
+            columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Comment("수정 시간")
     private LocalDateTime updatedAt;
 
@@ -51,11 +58,12 @@ public class Cart {
     private Order order;
 
     @Builder
-    private Cart(final Customer customer,
-                 final Product product,
-                 final Integer quantity,
-                 final LocalDateTime createdAt,
-                 final LocalDateTime updatedAt) {
+    private Cart(
+            final Customer customer,
+            final Product product,
+            final Integer quantity,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
 
         this.customer = customer;
         this.product = product;
@@ -66,7 +74,12 @@ public class Cart {
         validateConstructor(customer, product, quantity, createdAt, updatedAt);
     }
 
-    private void validateConstructor(final Customer customer, final Product product, final Integer quantity, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+    private void validateConstructor(
+            final Customer customer,
+            final Product product,
+            final Integer quantity,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
         Assert.notNull(customer, "사용자는 필수입니다.");
         Assert.notNull(product, "상품은 필수입니다.");
         Assert.notNull(quantity, "수량은 필수입니다.");
@@ -95,8 +108,7 @@ public class Cart {
     }
 
     public GetCartResponse toCartResponse(final Cart cart) {
-        return GetCartResponse
-                .builder()
+        return GetCartResponse.builder()
                 .id(cart.getId())
                 .quantity(cart.getQuantity())
                 .createdAt(cart.getCreatedAt())

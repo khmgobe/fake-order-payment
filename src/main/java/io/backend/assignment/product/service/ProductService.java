@@ -3,11 +3,10 @@ package io.backend.assignment.product.service;
 import io.backend.assignment.product.controller.request.ProductRequest;
 import io.backend.assignment.product.domain.Product;
 import io.backend.assignment.product.repository.ProductRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

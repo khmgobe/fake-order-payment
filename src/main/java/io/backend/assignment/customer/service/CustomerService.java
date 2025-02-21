@@ -1,8 +1,8 @@
 package io.backend.assignment.customer.service;
 
-import io.backend.assignment.customer.repository.CustomerRepository;
 import io.backend.assignment.customer.controller.dto.request.CustomerRequest;
 import io.backend.assignment.customer.domain.Customer;
+import io.backend.assignment.customer.repository.CustomerRepository;
 import io.backend.assignment.customer.service.usecase.CustomerServiceUseCase;
 import io.backend.assignment.util.exception.CustomerNameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +26,11 @@ public class CustomerService implements CustomerServiceUseCase {
     }
 
     private void checkIfCustomerNameAlreadyExists(final String customerName) {
-        customerRepository.findByCustomerName(customerName).ifPresent(
-                customer -> {
-                    throw new CustomerNameAlreadyExistsException(customerName);
-                }
-        );
+        customerRepository
+                .findByCustomerName(customerName)
+                .ifPresent(
+                        customer -> {
+                            throw new CustomerNameAlreadyExistsException(customerName);
+                        });
     }
 }

@@ -1,5 +1,7 @@
 package io.backend.assignment.payment;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.backend.assignment.cart.CartSteps;
 import io.backend.assignment.cart.service.CartService;
 import io.backend.assignment.customer.CustomerSteps;
@@ -9,7 +11,7 @@ import io.backend.assignment.order.OrderSteps;
 import io.backend.assignment.order.controller.dto.request.RegisterOrderRequest;
 import io.backend.assignment.order.controller.dto.response.GetOrderResponse;
 import io.backend.assignment.order.domain.enumeration.OrderStatus;
-import io.backend.assignment.order.service.usecase.OrderService;
+import io.backend.assignment.order.service.OrderService;
 import io.backend.assignment.payment.domain.dto.response.PaymentHistoryResponse;
 import io.backend.assignment.payment.domain.dto.response.PaymentResponse;
 import io.backend.assignment.payment.domain.enumeration.PaymentStatus;
@@ -24,28 +26,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 class PaymentServiceTest {
 
-    @Autowired
-    private OrderService orderService;
+    @Autowired private OrderService orderService;
 
-    @Autowired
-    private CartService cartService;
+    @Autowired private CartService cartService;
 
-    @Autowired
-    private CustomerService customerService;
+    @Autowired private CustomerService customerService;
 
-    @Autowired
-    private ProductService productService;
+    @Autowired private ProductService productService;
 
-    @Autowired
-    private PaymentService paymentService;
+    @Autowired private PaymentService paymentService;
 
-    @Autowired
-    private PaymentHistoryService paymentHistoryService;
+    @Autowired private PaymentHistoryService paymentHistoryService;
 
     @BeforeEach
     void setUp() {
@@ -64,7 +58,8 @@ class PaymentServiceTest {
 
         // given : 주문 요청에 필요한 데이터를 만들고 주문을 요청한다.
         final RegisterOrderRequest registerOrderRequest = OrderSteps.orderRequest();
-        final GetOrderResponse orderResponse = orderService.createOrder(customerId, registerOrderRequest);
+        final GetOrderResponse orderResponse =
+                orderService.createOrder(customerId, registerOrderRequest);
 
         // when : 결제 요청을 처리한다.
         final PaymentResponse paymentResponse = paymentService.payment(orderId);
@@ -76,7 +71,8 @@ class PaymentServiceTest {
         final GetOrderResponse afterOrderResponse = orderService.getOrder(orderId);
         assertThat(afterOrderResponse.orderStatus()).isEqualTo(OrderStatus.COMPLETE);
 
-        final PaymentHistoryResponse paymentHistoryResponse = paymentHistoryService.getBy(paymentHistoryId);
+        final PaymentHistoryResponse paymentHistoryResponse =
+                paymentHistoryService.getBy(paymentHistoryId);
         assertThat(paymentHistoryResponse.status()).isEqualTo(PaymentStatus.SUCCESS.name());
         assertThat(paymentHistoryResponse.amount()).isEqualTo(orderResponse.totalAmount());
     }

@@ -5,9 +5,8 @@ import io.backend.assignment.product.controller.request.ProductRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
 
 public class RegisterProductApi {
 
@@ -18,23 +17,29 @@ public class RegisterProductApi {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public RegisterProductApi stock (final int stock) {
+    public RegisterProductApi stock(final int stock) {
         this.stock = stock;
         return this;
     }
 
     public TestScenario request() {
 
-        ProductRequest request = new ProductRequest(name, description, price, stock, createdAt, updatedAt);
+        ProductRequest request =
+                new ProductRequest(name, description, price, stock, createdAt, updatedAt);
 
-        final ValidatableResponse response = RestAssured.given().log().all()
-                .when()
-                .body(request)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/v1/products")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
+        final ValidatableResponse response =
+                RestAssured.given()
+                        .log()
+                        .all()
+                        .when()
+                        .body(request)
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .post("/api/v1/products")
+                        .then()
+                        .log()
+                        .all()
+                        .statusCode(HttpStatus.CREATED.value());
         return new TestScenario();
     }
 }

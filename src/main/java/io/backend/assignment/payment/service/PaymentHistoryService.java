@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentHistoryService implements PaymentHistoryServiceUseCase{
+public class PaymentHistoryService implements PaymentHistoryServiceUseCase {
 
     private final PaymentHistoryRepository paymentHistoryRepository;
 
     @Override
     public PaymentHistoryResponse getBy(final Long paymentHistoryId) {
         final PaymentHistory paymentHistory = paymentHistoryRepository.getBy(paymentHistoryId);
-        final PaymentHistoryResponse paymentHistoryResponse = paymentHistory.toPaymentHistoryResponse(paymentHistory);
+        final PaymentHistoryResponse paymentHistoryResponse =
+                paymentHistory.toPaymentHistoryResponse(paymentHistory);
         return paymentHistoryResponse;
     }
 }

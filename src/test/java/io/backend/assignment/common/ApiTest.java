@@ -9,11 +9,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApiTest {
 
-    @LocalServerPort
-    private int port;
+    @LocalServerPort private int port;
 
-    @Autowired
-    private DatabaseCleaner databaseCleaner;
+    @Autowired private DatabaseCleaner databaseCleaner;
 
     @BeforeEach
     void setUp() {

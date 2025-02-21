@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     default Order getBy(final Long orderId) {
-        return findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        return findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
     }
 }

@@ -8,7 +8,7 @@ public interface PaymentHistoryRepository extends JpaRepository<PaymentHistory, 
 
     default PaymentHistory getBy(final Long paymentHistoryId) {
 
-            return findById(paymentHistoryId)
-                    .orElseThrow(() -> new ProductNotFoundException(paymentHistoryId));
-        }
+        return findById(paymentHistoryId)
+                .orElseThrow(() -> new ProductNotFoundException(paymentHistoryId));
+    }
 }
